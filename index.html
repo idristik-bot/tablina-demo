@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talbina Dushanbe — Здоровье по Сунне</title>
+    <style>
+        :root {
+            --green: #1e4d2b;
+            --green-light: #2e7d32;
+            --gold: #e5a93b;
+            --gold-dark: #c98a1e;
+            --bg: #faf7f2;
+            --brown: #3e2723;
+            --white: #ffffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: var(--bg); color: var(--brown); padding-bottom: 95px; line-height: 1.4; }
+        
+        /* Шапка */
+        header {
+            background: linear-gradient(135deg, var(--green) 0%, #14361d 100%);
+            color: var(--white);
+            padding: 20px 16px;
+            text-align: center;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 15px rgba(30, 77, 43, 0.2);
+        }
+        .badge-halal {
+            display: inline-block;
+            background: rgba(229, 169, 59, 0.2);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        header h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: 0.5px; }
+        header p { font-size: 0.88rem; opacity: 0.9; margin-top: 4px; color: #e8f5e9; }
+
+        .container { padding: 16px; max-width: 600px; margin: 0 auto; }
+
+        /* Блок преимуществ */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .feat-item {
+            background: var(--white);
+            padding: 10px 6px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid rgba(229, 169, 59, 0.3);
+        }
+        .feat-icon { font-size: 1.3rem; margin-bottom: 4px; }
+        .feat-text { font-size: 0.72rem; font-weight: 600; color: var(--green); }
+
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Карточки товаров */
+        .product-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 12px rgba(62, 39, 35, 0.06);
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            border: 1px solid #efe9df;
+        }
+        .product-img {
+            width: 95px;
+            height: 95px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: #f0ebe1;
+            flex-shrink: 0;
+        }
+        .product-info { flex: 1; }
+        .product-tag {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            background: #fff8e7;
+            padding: 2px 7px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+        .product-title { font-size: 0.98rem; font-weight: 700; margin-bottom: 4px; color: var(--brown); }
+        .product-desc { font-size: 0.78rem; color: #6d5c58; margin-bottom: 10px; }
+        
+        .product-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .price { font-size: 1.05rem; font-weight: 800; color: var(--green); }
+
+        /* Кнопки управления количеством */
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            background: #f3efe8;
+            border-radius: 10px;
+            padding: 3px;
+        }
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: var(--white);
+            color: var(--green);
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .qty-btn:active { transform: scale(0.95); }
+        .qty-val { width: 28px; text-align: center; font-weight: 700; font-size: 0.9rem; }
+
+        /* Инфо-карточка (Состав и приготовление) */
+        .info-box {
+            background: linear-gradient(135deg, #fffdf9 0%, #f7efe2 100%);
+            border: 1px solid var(--gold);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        .info-box h3 { font-size: 1rem; color: var(--green); margin-bottom: 8px; }
+        .info-list { list-style: none; font-size: 0.82rem; }
+        .info-list li { margin-bottom: 6px; padding-left: 18px; position: relative; }
+        .info-list li::before { content: "🌿"; position: absolute; left: 0; font-size: 0.75rem; }
+
+        /* Плавающая корзина */
+        .cart-bar {
+            position: fixed;
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            max-width: 576px;
+            margin: 0 auto;
+            background: var(--green);
+            color: var(--white);
+            padding: 12px 18px;
+            border-radius: 16px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 25px rgba(30, 77, 43, 0.35);
+            z-index: 999;
+        }
+        .cart-total-label { font-size: 0.75rem; opacity: 0.85; }
+        .cart-total-sum { font-size: 1.1rem; font-weight: 800; color: var(--gold); }
+        .order-btn {
+            background: var(--gold);
+            color: var(--brown);
+            border: none;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .order-btn:active { background: var(--gold-dark); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="badge-halal">100% ХАЛЯЛЬ • БЕЗ САХАРА</div>
+        <h1>Talbina Dushanbe</h1>
+        <p>Целебный завтрак по Сунне с доставкой по городу</p>
+    </header>
+
+    <div class="container">
+        <!-- Мини-преимущества -->
+        <div class="features">
+            <div class="feat-item">
+                <div class="feat-icon">⏱</div>
+                <div class="feat-text">Готово за 5 мин</div>
+            </div>
+            <div class="feat-item">
+                <div class="feat-icon">🌴</div>
+                <div class="feat-text">Финики Аджва</div>
+            </div>
+            <div class="feat-item">
+                <div class="feat-icon">🚚</div>
+                <div class="feat-text">Доставка Душанбе</div>
+            </div>
+        </div>
+
+        <div class="section-title">🛍 Наш ассортимент</div>
+
+        <!-- Товар 1 -->
+        <div class="product-card">
+            <img class="product-img" src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300" alt="Talbina Premium">
+            <div class="product-info">
+                <span class="product-tag">Хит продаж</span>
+                <div class="product-title">Каша ячменная Talbina (Премиум)</div>
+                <div class="product-desc">С финиками Аджва, натуральным медом, инжиром и орехами. Не требует варки.</div>
+                <div class="product-bottom">
+                    <div class="price">55 сомони</div>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="updateQty('p1', -1)">−</button>
+                        <span class="qty-val" id="qty-p1">0</span>
+                        <button class="qty-btn" onclick="updateQty('p1', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Товар 2 -->
+        <div class="product-card">
+            <img class="product-img" src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=300" alt="Talbina Sunnamed">
+            <div class="product-info">
+                <span class="product-tag">Классика</span>
+                <div class="product-title">Талбина из ячменной муки SUNNAMED</div>
+                <div class="product-desc">100% натуральный ячмень. Деликатно очищает организм и дает долгую энергию.</div>
+                <div class="product-bottom">
+                    <div class="price">45 сомони</div>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="updateQty('p2', -1)">−</button>
+                        <span class="qty-val" id="qty-p2">0</span>
+                        <button class="qty-btn" onclick="updateQty('p2', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Товар 3 -->
+        <div class="product-card">
+            <img class="product-img" src="https://images.unsplash.com/photo-1596560548464-f010549b84d7?w=300" alt="Финики Аджва">
+            <div class="product-info">
+                <span class="product-tag">Премиум 1 КГ</span>
+                <div class="product-title">Финики Аджва MUNIS</div>
+                <div class="product-desc">Жемчужина среди фиников. Природные антиоксиданты и заряд бодрости.</div>
+                <div class="product-bottom">
+                    <div class="price">120 сомони</div>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="updateQty('p3', -1)">−</button>
+                        <span class="qty-val" id="qty-p3">0</span>
+                        <button class="qty-btn" onclick="updateQty('p3', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Блок состава и пользы -->
+        <div class="info-box">
+            <h3>🥣 Как приготовить за 4–5 минут?</h3>
+            <ul class="info-list">
+                <li>Залейте кашу горячим молоком (для нежной текстуры), кефиром или водой.</li>
+                <li>Перемешайте и дайте настояться 4–5 минут под крышкой.</li>
+                <li>В составе: ячмень, финики Аджва, натуральный мед, инжир, миндаль, грецкий орех и щепотка гималайской соли.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Плавающая корзина -->
+    <div class="cart-bar" id="cartBar">
+        <div>
+            <div class="cart-total-label" id="cartCountLabel">Выбрано товаров: 0</div>
+            <div class="cart-total-sum" id="cartTotalSum">0 сомони</div>
+        </div>
+        <button class="order-btn" onclick="sendOrder()">Заказать в WhatsApp ➔</button>
+    </div>
+
+    <script>
+        const products = {
+            p1: { name: "Каша Talbina (Премиум с Аджва и медом)", price: 55, qty: 0 },
+            p2: { name: "Талбина из ячменной муки SUNNAMED", price: 45, qty: 0 },
+            p3: { name: "Финики Аджва MUNIS (1 кг)", price: 120, qty: 0 }
+        };
+
+        function updateQty(id, change) {
+            if (products[id].qty + change >= 0) {
+                products[id].qty += change;
+                document.getElementById(`qty-${id}`).innerText = products[id].qty;
+                renderCart();
+            }
+        }
+
+        function renderCart() {
+            let totalQty = 0;
+            let totalSum = 0;
+            for (let key in products) {
+                totalQty += products[key].qty;
+                totalSum += products[key].qty * products[key].price;
+            }
+
+            const bar = document.getElementById('cartBar');
+            if (totalQty > 0) {
+                bar.style.display = 'flex';
+                document.getElementById('cartCountLabel').innerText = `Товаров в корзине: ${totalQty} шт.`;
+                document.getElementById('cartTotalSum').innerText = `${totalSum} сомони`;
+            } else {
+                bar.style.display = 'none';
+            }
+        }
+
+        function sendOrder() {
+            let text = "Ассаламу алейкум! Хочу оформить заказ с сайта Talbina Dushanbe:%0A%0A";
+            let total = 0;
+            for (let key in products) {
+                let p = products[key];
+                if (p.qty > 0) {
+                    let sum = p.qty * p.price;
+                    text += `▪ ${p.name} — ${p.qty} шт. (${sum} сомони)%0A`;
+                    total += sum;
+                }
+            }
+            text += `%0A💰 Итого к оплате: ${total} сомони%0A📍 Адрес доставки: `;
+
+            // Номер для приема заказов (сейчас стоит твой для теста, потом заменишь на номер магазина)
+            const phone = "992970980300";
+            window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+        }
+    </script>
+</body>
+</html>
